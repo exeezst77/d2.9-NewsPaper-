@@ -1,0 +1,124 @@
+py manage.py shell
+
+from news.models import *
+
+u1 = User.objects.create_user(username='Ivan')
+
+u2 = User.objects.create_user(username='Alex')
+
+Author.objects.create(authorUser=u1)
+
+Author.objects.create(authorUser=u2)
+
+Category.objects.create(name='Drama')
+
+Category.objects.create(name='Comedy')
+
+Category.objects.create(name='Thriller')
+
+Category.objects.create(name='Detective')
+
+author = Author.objects.get(id=1)
+
+author2 = Author.objects.get(id=2)
+
+Post.objects.create(author=author, categoryType = 'AR', title='How horror movies are filmed', text = 'sensation')
+
+Post.objects.create(author=author2, categoryType = 'AR', title='How detective movies are filmed', text = 'must read')
+
+Post.objects.create(author=author, categoryType = 'NW', title='Who will star in the new Hollywood comedy', text = 'Ryan Gosling')
+
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=1))
+
+Post.objects.get(id=1).postCategory.add(Category.objects.get(id=2))
+
+Post.objects.get(id=2).postCategory.add(Category.objects.get(id=3))
+
+Post.objects.get(id=3).postCategory.add(Category.objects.get(id=4))
+
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1).authorUser, text='awesome')
+
+Comment.objects.create(commentPost=Post.objects.get(id=1), commentUser=Author.objects.get(id=1).authorUser, text='not bad')
+
+Comment.objects.create(commentPost=Post.objects.get(id=2), commentUser=Author.objects.get(id=2).authorUser, text='wow')
+
+Comment.objects.create(commentPost=Post.objects.get(id=3), commentUser=Author.objects.get(id=2).authorUser, text='unbelievably')
+
+Comment.objects.get(id=1).like()
+
+Comment.objects.get(id=1).like()
+
+Comment.objects.get(id=1).like()
+
+Comment.objects.get(id=1).like()
+
+Comment.objects.get(id=1).like()
+
+Comment.objects.get(id=1).rating
+
+Comment.objects.get(id=2).like()
+
+Comment.objects.get(id=2).dislike()
+
+Comment.objects.get(id=2).like()
+
+Comment.objects.get(id=2).like()
+
+Comment.objects.get(id=2).rating
+
+Comment.objects.get(id=3).dislike()
+
+Comment.objects.get(id=3).dislike()
+
+Comment.objects.get(id=3).dislike()
+
+Comment.objects.get(id=3).dislike()
+
+Comment.objects.get(id=3).dislike()
+
+Comment.objects.get(id=3).rating
+
+Comment.objects.get(id=4).dislike()
+
+Comment.objects.get(id=4).dislike()
+
+Comment.objects.get(id=4).dislike()
+
+Comment.objects.get(id=4).like()
+
+Comment.objects.get(id=4).rating
+
+a = Author.objects.get(id=1)
+
+a2 = Author.objects.get(id=2)
+
+a.update_rating()
+
+a2.update_rating()
+
+a.ratingAuthor
+
+a2.ratingAuthor
+
+for i in a:
+    i.ratingAuthor
+    i.authorUser.username
+
+for b in a2:
+    b.ratingAuthor
+    b.authorUser.username
+
+a3 = Post.objects.all().order_by('-rating')[:1]
+for j in a3:
+    f"Data : {j.dataCreations.day}"
+    f"Rating: {j.rating}"
+    j.author.authorUser
+    j.title
+    j.preview()
+
+a4 = Comment.objects.all().filter(commentPost=a3)
+for d in a4:
+    F"Data : {d.dataCreation.day}/{d.dataCreation.month}/{d.dataCreation.year}"
+    d.commentUser
+    F"Rating : {d.rating}"
+    d.text
